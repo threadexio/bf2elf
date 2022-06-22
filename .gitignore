@@ -1,2 +1,8 @@
 /target
 /.vscode
+
+*.asm
+*.o
+tester
+
+!bf2elf

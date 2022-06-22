@@ -18,18 +18,25 @@ pub enum Token {
 pub fn parse(source_code: &str) -> Vec<Token> {
 	let mut tokens: Vec<Token> = Vec::with_capacity(source_code.len());
 
+	let mut comment = false;
+
 	use Token::*;
 	for symbol in source_code.chars() {
-		match symbol {
-			'<' => tokens.push(MoveLeft),
-			'>' => tokens.push(MoveRight),
-			'+' => tokens.push(IncreaseValue),
-			'-' => tokens.push(DecreaseValue),
-			'.' => tokens.push(Print),
-			',' => tokens.push(GetInput),
-			'[' => tokens.push(Loop),
-			']' => tokens.push(JumpBack),
-			_ => {}
+		if !comment {
+			match symbol {
+				'<' => tokens.push(MoveLeft),
+				'>' => tokens.push(MoveRight),
+				'+' => tokens.push(IncreaseValue),
+				'-' => tokens.push(DecreaseValue),
+				'.' => tokens.push(Print),
+				',' => tokens.push(GetInput),
+				'[' => tokens.push(Loop),
+				']' => tokens.push(JumpBack),
+				';' => comment = true,
+				_ => {}
+			}
+		} else if symbol == '\n' {
+			comment = false;
 		}
 	}
 
